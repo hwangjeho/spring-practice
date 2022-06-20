@@ -1,0 +1,74 @@
+@charset "UTF-8";
+#comments{
+	width: 100%;
+	min-height: 80px;
+	height: inherit;
+	padding: 5px;
+	background-color: white;
+	margin-bottom: 5px;
+	float: right;
+}
+#comment{
+	width: calc(100% - 10px);
+	min-height: 80px;
+	height: inherit;
+	background-color: white;
+	margin: 5px;
+	box-sizing: border-box;
+	margin-bottom: 5px;
+	display: block;
+}
+#commenthead{
+	width: 100%;
+	height: 30px;
+	border-top: 2px #0431B4 solid;	
+	line-height: 30px;
+	padding: 0px 5px;
+	box-sizing: border-box;
+}
+#commentbody{
+	border-top: 1px gray solid;
+	width: 100%;
+	height: auto;
+	line-height: 50px;
+	box-sizing: border-box;
+	float: left;
+	word-break: break-all;
+	min-height: 50px;
+	padding-left: 10px;
+	position: relative;
+}
+#cid{
+	float: left;
+}
+#cdate{
+	float: right;
+}
+.comment{
+	width: 956px;
+    height: 78px;
+    padding: 13px;
+    border: 1px solid #cecdce;
+    background: #fff;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+    line-height: 18px;
+    resize: none;
+}
+#textCount{
+    height: 31px;
+    line-height: 29px;
+    margin-left: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #5882FA;
+}
+.update, .delete, .bupdate, .bdelete{
+	width: 10px;
+	height: 10px;
+	
+}

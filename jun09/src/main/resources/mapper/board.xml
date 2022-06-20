@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="boardList" parameterType="pageDTO" resultType="boardDTO">
+		SELECT * FROM jun_boardview
+		WHERE b_cate=#{b_cate}
+		LIMIT #{startPage}, #{lastPage}
+	</select>
+	<select id="detail" parameterType="boardDTO" resultType="boardDTO">
+		SELECT * FROM jun_boardview WHERE b_no=#{b_no} 
+		<if test="u_id != null">
+		AND u_id=(SELECT u_no FROM jun_user WHERE u_id=#{u_id})
+		</if>
+	</select>
+	<insert id="write" parameterType="boardDTO" useGeneratedKeys="true" keyProperty="b_no">
+		INSERT INTO jun_board (b_title, b_content, u_no) VALUES (#{b_title}, #{b_content}, (SELECT u_no FROM jun_user WHERE u_id=#{u_id}))
+	</insert>
+	<select id="totalCount" resultType="integer" parameterType="integer">
+		SELECT count(*) AS count
+		FROM jun_boardview
+		WHERE b_cate = #{b_cate}
+		
+	</select>
+	<select id="commentList" parameterType="integer" resultType="commentDTO">
+		SELECT * FROM jun_commentview WHERE b_no=#{b_no}
+	</select>
+	<insert id="commentWrite" parameterType="commentDTO">
+		INSERT INTO jun_comment (c_content, u_no, b_no) VALUES (#{c_content}, (SELECT u_no FROM jun_user WHERE u_id=#{u_id}), #{b_no})
+	</insert>
+	<delete id="commentDelete" parameterType="commentDTO">
+		DELETE FROM jun_comment WHERE b_no=#{b_no} AND c_no=#{c_no} AND u_no=(SELECT u_no FROM jun_user WHERE u_id=#{u_id})
+	</delete>
+	<update id="commentUpdate" parameterType="commentDTO">
+		UPDATE jun_comment SET c_content=#{c_content} WHERE c_no=#{c_no} AND u_no=(SELECT u_no FROM jun_user WHERE u_id=#{u_id})
+	</update>
+	<delete id="boardDelete" parameterType="boardDTO">
+		DELETE FROM jun_board WHERE b_no=#{b_no} AND u_no=(SELECT u_no FROM jun_user WHERE u_id=#{u_id})
+	</delete>
+	<update id="boardUpdate" parameterType="boardDTO">
+		UPDATE jun_board SET b_title=#{b_title}, b_content=#{b_content}
+		WHERE b_no=#{b_no} AND u_no=(SELECT u_no FROM jun_user WHERE u_id=#{u_id})
+	</update>
+	<update id="countUp" parameterType="boardDTO">
+		UPDATE jun_board SET b_count=b_count+1 
+		WHERE b_no=#{b_no}
+	</update>
+	<insert id="fileWrite" parameterType="fileDTO">
+		INSERT INTO jun_upload (b_no, f_filename) VALUES (#{b_no}, #{f_filename})
+	</insert>
+	<select id="fileList" resultType="fileDTO" parameterType="integer">
+		SELECT * FROM jun_upload WHERE b_no=#{b_no}
+	</select>
+	<delete id="deleteFile" parameterType="fileDTO">
+		DELETE FROM jun_upload WHERE b_no=#{b_no}
+	</delete>
+</mapper>
