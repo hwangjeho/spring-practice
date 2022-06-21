@@ -86,6 +86,11 @@ public class BoardDAO {
 		
 	}
 
+	public void fileUpdate(FileDTO fileDTO) {
+		sqlSession.update("board.fileUpdate", fileDTO);
+		
+	}
+
 }
 
 

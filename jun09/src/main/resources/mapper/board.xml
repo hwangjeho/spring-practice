@@ -55,4 +55,7 @@
 	<delete id="deleteFile" parameterType="fileDTO">
 		DELETE FROM jun_upload WHERE b_no=#{b_no}
 	</delete>
+	<update id="fileUpdate" parameterType="fileDTO">
+		UPDATE jun_upload SET f_filename=#{f_filename} WHERE b_no=#{b_no} AND f_no=#{f_no}
+	</update>
 </mapper>

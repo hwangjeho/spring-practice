@@ -83,5 +83,10 @@ public class BoardService {
 		
 	}
 
+	public void fileUpdate(FileDTO fileDTO) {
+		boardDAO.fileUpdate(fileDTO);
+		
+	}
+
 	 
 }

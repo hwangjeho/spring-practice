@@ -14,11 +14,11 @@
 	</resultMap>
 	
 	<select id="login" resultType="loginDTO">
-		SELECT * FROM jun_user WHERE u_id=#{u_id} AND u_pw=#{u_pw}
+		SELECT * FROM jun_user WHERE u_id=#{u_id} AND u_pw=HEX(AES_ENCRYPT(#{u_pw}, SHA2('woori', 256)))
 	</select>
 	<insert id='join' parameterType="loginDTO">
 		INSERT INTO jun_user (u_id, u_pw, u_name, u_email)
-		VALUES (#{u_id}, #{u_pw}, #{u_name}, #{u_email})
+		VALUES (#{u_id}, HEX(AES_ENCRYPT(#{u_pw}, SHA2('woori', 256))), #{u_name}, #{u_email})
 	</insert>
 	<select id="checkID" parameterType="String" resultType="integer">
 		SELECT count(*) AS count FROM jun_user WHERE u_id=#{parameter}

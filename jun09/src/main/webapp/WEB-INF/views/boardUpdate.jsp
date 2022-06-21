@@ -47,6 +47,7 @@ function check(){
 		<input type="text" name="title" required="required" value="${dto.b_title }">
 		<textarea name="content" id="summernote" required="required" >${dto.b_content }</textarea>
 		<input type="hidden" name="b_no" value="${dto.b_no }">
+		<input type="file" name="files" accept=".png, .jpg, .gif, .jpeg" multiple="multiple">
 		<button type="submit">수정</button>
 	</form>
 	</div>

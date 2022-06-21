@@ -1,6 +1,7 @@
 package com.poseidon.Controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -297,7 +298,8 @@ public class BoardController {
 	
 	//게시글수정
 	@GetMapping(value = "/boardUpdate")
-	public ModelAndView boardUpdate(HttpServletRequest request){
+	public ModelAndView boardUpdate(HttpServletRequest request, MultipartFile[] files) throws IllegalStateException, IOException{
+		request.setCharacterEncoding("UTF-8");
 		ModelAndView mv = new ModelAndView("boardUpdate");
 		HttpSession session = request.getSession();
 		if(session.getAttribute("id") != null
@@ -310,6 +312,26 @@ public class BoardController {
 			BoardDTO dto = boardService.detail(   boardUpdate  );
 			System.out.println(dto);
 			
+			for (MultipartFile file : files) {
+				if( !(  file.getOriginalFilename().isEmpty()  ) ) {
+					
+					//파일을 저장할 실제 경로 얻어오기	톰캣가상경로
+					String realPath = servletContext.getRealPath("resources/upload/");
+				
+					//호출
+					String realFileName = fileSave.save(realPath, file);
+					
+					//파일이름을 데이터베이스에 저장하는 작업
+					//b_no, realFilename을 저장합니다.
+					FileDTO fileDTO = new FileDTO();
+					fileDTO.setB_no(boardUpdate.getB_no());
+					fileDTO.setF_filename(realFileName);
+					
+					boardService.fileUpdate(fileDTO);
+					
+					System.out.println("업로드 끝. 경로로 들어가서 확인하세요.");
+				}
+			}
 			if(dto != null) {
 				mv.addObject("dto", dto);
 			}
